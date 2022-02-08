@@ -38,11 +38,27 @@
 
 <script>
 import Navbar from "../components/Navbar.vue";
+import axios from 'axios'
 export default {
   name: "MakeReferral",
   components: {
     Navbar,
   },
+  data(){
+    return{
+      patient : null,
+      description : ""
+    }
+  },
+  methods:{
+    submitReferral(){
+      const fd = {
+        patient : "",
+        description : ""
+      }
+      axios.post("http://127.0.0.1:8000/api/auth/register", fd)
+    }
+  }
 };
 </script>
 

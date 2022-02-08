@@ -6,36 +6,34 @@
         <div class="row">
     
         <div class="col-md-12 register-part">
-            <form action="" class = "register-form  bg-light">
+            <form action="" class = "register-form  bg-light" @submit.prevent="register">
             <h1 class="text-dark text-center py-3 text-uppercase reg-text">Register</h1>
             <div class="input-group">
-                <input type="text" class="form-control shadow-none" placeholder="FirstName">
+                <input type="text" v-model="first_name" class="form-control shadow-none" placeholder="FirstName">
             </div>
             <div class="input-group ">
-                <input type="text" class="form-control shadow-none" placeholder="LastName">
+                <input type="text" v-model="last_name" class="form-control shadow-none" placeholder="LastName">
             </div>
             <div class="input-group">
-            <select name="" id="" class="form-control">
+            <select name="" id="" class="form-control" v-model="gender">
                 <option value="">*** Select Gender ***</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
             </select>
             </div>
-            <!-- <div class="input-group ">
-                <input type="email" class="form-control shadow-none" placeholder="Gender">
-            </div> -->
+
             <div class="input-group">
-                <input type="date" class="form-control shadow-none" placeholder="Date Of Birth">
+                <input type="date" v-model="dob" class="form-control shadow-none" placeholder="Date Of Birth">
             </div>
             <div class="input-group">
-                <input type="email" class="form-control shadow-none" placeholder="Email">
+                <input type="email" v-model="email" class="form-control shadow-none" placeholder="Email">
             </div>
             <div class="input-group">
-                <input type="password" class="form-control shadow-none" placeholder="Password">
+                <input type="password" v-model="password" class="form-control shadow-none" placeholder="Password">
             </div>
             
             <div class="input-group">
-                <input type="password" class="form-control shadow-none" placeholder="Confirm Password">
+                <input type="password" v-model="confirm_password" class="form-control shadow-none" placeholder="Confirm Password">
             </div>
             <input type="submit" value="SUBMIT" class="btn register-button">
             <p class="info-text">Already have an account? <span><router-link to="login">Login</router-link></span></p>
@@ -49,12 +47,45 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Navbar from '../components/Navbar.vue'
 export default {
     name : 'Register',
     components : {
         Navbar,
     },
+    data(){
+        return{
+            first_name : "",
+            last_name : "",
+            gender : "",
+            dob : "",
+            email : "", 
+            password : "",
+            confirm_password : ""
+        }
+
+    },
+    methods : {
+        register(){
+            const Formdata = {
+                first_name : this.first_name,
+                last_name : this.last_name,
+                gender : this.gender,
+                dob : this.dob,
+                email : this.email,
+                password : this.password,
+                confirm_password : this.confirm_password
+            }
+            axios.post('https://hms-lmu.herokuapp.com/api/auth/register/', Formdata)
+            .then(response=>{
+                console.log(response)
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+        }
+    }
 
 }
 </script>
@@ -89,7 +120,7 @@ export default {
 
 
     .register-form{
-        padding: 3em 3em;
+        padding: 1em 3em;
         // opacity: .8;
         z-index: 100;
         border-radius: 30px;
